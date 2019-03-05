@@ -74,7 +74,7 @@ class App extends Component {
             Test
           </Button>
           <div>
-            <p>For testing your IP enter 0.0.0.0</p>
+            <p>for testing your IP enter 0.0.0.0</p>
           </div>
         </Segment>
 
