@@ -12,7 +12,7 @@ class App extends Component {
 
   componentDidMount() {
     if (localStorage.getItem("ipAddress")) {
-      this.setState({ ipAddress: localStorage.getItem("idAddress") });
+      this.setState({ ipAddress: localStorage.getItem("ipAddress") });
     }
     if (localStorage.getItem("Responses")) {
       let responses = localStorage.getItem("Responses");
@@ -24,7 +24,10 @@ class App extends Component {
     let url = "https://api.2ip.ua/geo.json?ip=" + this.state.ipAddress;
     axios.get(url).then(res => {
       if (res.status === 200) {
-        this.setState({ respList: [...this.state.respList, res.data] });
+        this.setState({
+          ipAddress: "",
+          respList: [...this.state.respList, res.data]
+        });
         let newResponses = JSON.stringify(this.state.respList);
         localStorage.setItem("Responses", newResponses);
       } else {
@@ -36,6 +39,7 @@ class App extends Component {
 
   handleChangeIP = e => {
     this.setState({ ipAddress: e.target.value });
+    localStorage.setItem("ipAddress", e.target.value);
   };
 
   render() {
@@ -51,6 +55,7 @@ class App extends Component {
         </Card.Content>
       </Card>
     ));
+
     let valid = validate.ipv4(this.state.ipAddress);
     return (
       <div>
@@ -58,7 +63,7 @@ class App extends Component {
           Test IP
         </Header>
         <Segment textAlign="center">
-          <Input onChange={this.handleChangeIP} />
+          <Input onChange={this.handleChangeIP} value={this.state.ipAddress} />
           <Button disabled={!valid} onClick={this.clickButton}>
             Test
           </Button>
