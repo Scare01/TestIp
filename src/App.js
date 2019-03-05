@@ -21,7 +21,13 @@ class App extends Component {
   }
 
   clickButton = () => {
-    let url = "https://api.2ip.ua/geo.json?ip=" + this.state.ipAddress;
+    let url;
+    if (this.state.ipAddress === "0.0.0.0") {
+      url = "https://api.2ip.ua/geo.json?ip=";
+    } else {
+      url = "https://api.2ip.ua/geo.json?ip=" + this.state.ipAddress;
+    }
+
     axios.get(url).then(res => {
       if (res.status === 200) {
         this.setState({
@@ -67,7 +73,11 @@ class App extends Component {
           <Button disabled={!valid} onClick={this.clickButton}>
             Test
           </Button>
+          <div>
+            <p>For testing your IP enter 0.0.0.0</p>
+          </div>
         </Segment>
+
         <Header as="h2" textAlign="center">
           Responses:
         </Header>
